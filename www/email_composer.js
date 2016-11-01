@@ -94,7 +94,11 @@ exports.open = function (options, callback, scope) {
 
     options = this.mergeWithDefaults(options || {});
 
-    var onAvailable = function (isPossible, withScheme) {
+    if(isAndroid) {
+        exec(fn, null, 'EmailComposer', 'open', [options]);
+    }
+    else {
+        var onAvailable = function (isPossible, withScheme) {
 
         if (!isPossible)
             return fn();
@@ -112,6 +116,7 @@ exports.open = function (options, callback, scope) {
     };
 
     exec(onAvailable, null, 'EmailComposer', 'isAvailable', [options.app]);
+    }
 };
 
 /**
